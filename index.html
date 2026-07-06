@@ -26,9 +26,9 @@
   --blue:     #1a60c8;
   --blue-lt:  #60a8ff;
   --white-lt: #f0eaf8;
+  --green-lt: #2ab840;
   --text:     #e0d0f0;
   --muted:    #7a6890;
-  --green-lt: #50d060;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,83 +39,61 @@ body {
   color: var(--text);
   font-family: 'Crimson Text', serif;
   min-height: 100vh;
-  padding: env(safe-area-inset-top, 12px) 12px env(safe-area-inset-bottom, 28px);
-  padding-top: max(env(safe-area-inset-top), 12px);
-  padding-bottom: max(env(safe-area-inset-bottom), 28px);
+  padding: max(env(safe-area-inset-top),12px) 12px max(env(safe-area-inset-bottom),28px);
   background-image:
     radial-gradient(ellipse 100% 45% at 50% 0%, #2a0a3820 0%, transparent 65%),
     radial-gradient(ellipse 50% 35% at 85% 100%, #c0282808 0%, transparent 55%);
 }
 
-header {
-  text-align: center;
-  margin-bottom: 14px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-h1 {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 1.4rem;
-  color: var(--gold-lt);
-  letter-spacing: .06em;
-  text-shadow: 0 0 28px #c49a2a55;
-  line-height: 1.15;
-}
-.subtitle {
-  font-family: 'Cinzel', serif;
-  font-size: .62rem;
-  color: var(--muted);
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  margin-top: 3px;
-}
+header { text-align: center; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--gold-lt); letter-spacing: .06em; text-shadow: 0 0 28px #c49a2a55; line-height: 1.15; }
+.subtitle { font-family: 'Cinzel', serif; font-size: .62rem; color: var(--muted); letter-spacing: .18em; text-transform: uppercase; margin-top: 3px; }
 
-.section {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 11px;
-  position: relative;
-  overflow: hidden;
-}
-.section::before {
-  content: '';
-  position: absolute; inset: 0; border-radius: 14px;
-  background: linear-gradient(135deg, #ffffff07 0%, transparent 55%);
-  pointer-events: none;
-}
+.section { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 11px; position: relative; overflow: hidden; }
+.section::before { content: ''; position: absolute; inset: 0; border-radius: 14px; background: linear-gradient(135deg,#ffffff07 0%,transparent 55%); pointer-events: none; }
 
-.sec-title {
-  font-family: 'Cinzel', serif;
-  font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 13px;
-  display: flex; align-items: center; gap: 7px;
+.sec-title { font-family: 'Cinzel', serif; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 13px; display: flex; align-items: center; gap: 7px; }
+.sec-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
+.sec-title-row .sec-title { margin-bottom: 0; }
+
+/* Info button */
+.info-btn {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: transparent; border: 1px solid var(--gold);
+  color: var(--gold); font-family: 'Cinzel', serif; font-weight: 700; font-size: .8rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background .15s, color .15s;
+}
+.info-btn:active { background: var(--gold); color: #080608; }
+
+/* Modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 100;
+  background: #00000099; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #1a1028; border: 1px solid var(--gold); border-radius: 16px;
+  padding: 22px 18px; max-width: 340px; width: 100%;
+  box-shadow: 0 8px 40px #00000099;
+}
+.modal-title { font-family: 'Cinzel', serif; font-size: .9rem; color: var(--gold-lt); margin-bottom: 14px; letter-spacing: .1em; }
+.modal p { font-size: .92rem; color: var(--text); line-height: 1.6; margin-bottom: 10px; }
+.modal p:last-of-type { margin-bottom: 16px; }
+.modal-close {
+  width: 100%; background: transparent; border: 1px solid var(--border);
+  color: var(--muted); font-family: 'Cinzel', serif; font-size: .7rem; letter-spacing: .1em;
+  border-radius: 9px; padding: 9px; cursor: pointer; text-transform: uppercase;
 }
 
 /* ── COIN ── */
 .coin-row { display: flex; align-items: center; gap: 14px; }
-.coin {
-  width: 80px; height: 80px; flex-shrink: 0; border-radius: 50%;
-  border: 2px solid var(--gold);
-  background: radial-gradient(circle at 38% 32%, #e8b040 0%, #6a2a08 68%);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2.1rem; cursor: pointer; user-select: none;
-  box-shadow: 0 0 20px #c49a2a44, inset 0 2px 5px #ffffff18;
-  transition: transform .1s;
-}
+.coin { width: 80px; height: 80px; flex-shrink: 0; border-radius: 50%; border: 2px solid var(--gold); background: radial-gradient(circle at 38% 32%,#e8b040 0%,#6a2a08 68%); display: flex; align-items: center; justify-content: center; font-size: 2.1rem; cursor: pointer; user-select: none; box-shadow: 0 0 20px #c49a2a44,inset 0 2px 5px #ffffff18; transition: transform .1s; }
 .coin:active { transform: scale(.9); }
 .coin.spinning { animation: cspin .55s ease-out forwards; }
-@keyframes cspin {
-  0%   { transform: rotateY(0) scale(1); }
-  45%  { transform: rotateY(540deg) scale(1.1); }
-  100% { transform: rotateY(1080deg) scale(1); }
-}
+@keyframes cspin { 0%{transform:rotateY(0) scale(1)} 45%{transform:rotateY(540deg) scale(1.1)} 100%{transform:rotateY(1080deg) scale(1)} }
 .coin-info { flex: 1; }
-.coin-result {
-  font-family: 'Cinzel', serif; font-size: .95rem; font-weight: 600;
-  min-height: 1.5em; margin-bottom: 7px; color: var(--muted);
-}
+.coin-result { font-family: 'Cinzel', serif; font-size: .95rem; font-weight: 600; min-height: 1.5em; margin-bottom: 7px; color: var(--muted); }
 .coin-result.win  { color: var(--green-lt); }
 .coin-result.lose { color: var(--red-lt); }
 .coin-stats { display: flex; gap: 14px; }
@@ -127,23 +105,14 @@ h1 {
 .coin-hint { font-size: .68rem; color: var(--muted); font-style: italic; text-align: center; margin-top: 9px; }
 
 /* ── STORM ── */
-.storm-total-row {
-  display: flex; justify-content: center; align-items: baseline;
-  gap: 6px; margin-bottom: 13px;
-}
-.storm-big {
-  font-family: 'Cinzel Decorative', serif; font-size: 4rem;
-  color: var(--ember); line-height: 1; text-shadow: 0 0 36px #ff773038;
-}
+.storm-total-row { display: flex; justify-content: center; align-items: baseline; gap: 6px; margin-bottom: 13px; }
+.storm-big { font-family: 'Cinzel Decorative', serif; font-size: 4rem; color: var(--ember); line-height: 1; text-shadow: 0 0 36px #ff773038; }
 .storm-big.bump { animation: bump .22s ease-out; }
 @keyframes bump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.22)} }
 .storm-unit { font-family: 'Cinzel', serif; font-size: .78rem; color: var(--muted); padding-bottom: 8px; }
 
 .storm-split { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 9px; }
-.splayer {
-  border-radius: 10px; padding: 11px 8px;
-  display: flex; flex-direction: column; align-items: center; gap: 7px;
-}
+.splayer { border-radius: 10px; padding: 11px 8px; display: flex; flex-direction: column; align-items: center; gap: 7px; }
 .splayer.mine  { background: linear-gradient(150deg,#1c0808,#360d0d); border: 1px solid #b02020; }
 .splayer.rival { background: linear-gradient(150deg,#070f28,#0d1c50); border: 1px solid #1a50c0; }
 .splayer-lbl { font-family: 'Cinzel', serif; font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; }
@@ -153,97 +122,110 @@ h1 {
 .mine  .splayer-num { color: var(--red-lt); }
 .rival .splayer-num { color: var(--blue-lt); }
 
-.btn {
-  font-family: 'Cinzel', serif; font-weight: 700; border: none;
-  border-radius: 9px; cursor: pointer; transition: filter .12s, transform .1s;
-  display: flex; align-items: center; justify-content: center;
-}
+/* +1 / -1 en la misma fila */
+.splayer-btns { display: flex; gap: 6px; }
+
+.btn { font-family: 'Cinzel', serif; font-weight: 700; border: none; border-radius: 9px; cursor: pointer; transition: filter .12s, transform .1s; display: flex; align-items: center; justify-content: center; }
 .btn:active { transform: scale(.92); }
 .btn:hover  { filter: brightness(1.15); }
-.btn-red   { background: linear-gradient(135deg,#680e0e,#ae1e1e); color: #ffd8d0; border: 1px solid #c02020; font-size: 1.15rem; padding: 9px 18px; }
-.btn-blue  { background: linear-gradient(135deg,#0a1840,#1040a0); color: #c8dcff; border: 1px solid #2060c0; font-size: 1.15rem; padding: 9px 18px; }
+.btn-red  { background: linear-gradient(135deg,#680e0e,#ae1e1e); color: #ffd8d0; border: 1px solid #c02020; font-size: 1.1rem; padding: 9px 14px; }
+.btn-blue { background: linear-gradient(135deg,#0a1840,#1040a0); color: #c8dcff; border: 1px solid #2060c0; font-size: 1.1rem; padding: 9px 14px; }
 .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); font-size: .68rem; letter-spacing: .07em; padding: 8px; flex: 1; }
 .ghost-row { display: flex; gap: 7px; }
 
 /* ── MANÁ ── */
-.mana-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; }
-.mcolor {
-  border-radius: 12px; padding: 12px 7px;
-  display: flex; flex-direction: column; align-items: center; gap: 7px;
-}
-.mcolor.blu { background: linear-gradient(160deg,#050c28,#0d1c58); border: 1px solid #1e50c0; }
-.mcolor.red { background: linear-gradient(160deg,#1e0808,#3c0d0d); border: 1px solid #a81818; }
-.mcolor.wht { background: linear-gradient(160deg,#120f1c,#201628); border: 1px solid #5848a0; }
+.mana-grid { display: grid; gap: 9px; }
+.mana-grid.cols-1 { grid-template-columns: 1fr; }
+.mana-grid.cols-2 { grid-template-columns: repeat(2,1fr); }
+.mana-grid.cols-3 { grid-template-columns: repeat(3,1fr); }
 
-.mpip {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.1rem;
-}
-.blu .mpip { background: #0e38b0; color: #80b8ff; border: 2px solid #3070e0; box-shadow: 0 0 14px #3070e030; }
+.mcolor { border-radius: 12px; padding: 12px 7px; display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.mcolor.red { background: linear-gradient(160deg,#1e0808,#3c0d0d); border: 1px solid #a81818; }
+.mcolor.blu { background: linear-gradient(160deg,#050c28,#0d1c58); border: 1px solid #1e50c0; }
+.mcolor.wht { background: linear-gradient(160deg,#120f1c,#201628); border: 1px solid #5848a0; }
+.mcolor.grn { background: linear-gradient(160deg,#071a0a,#0d3212); border: 1px solid #1a7828; }
+.mcolor.blk { background: linear-gradient(160deg,#100c10,#1e161e); border: 1px solid #604060; }
+
+.mpip { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.1rem; }
 .red .mpip { background: #8c1414; color: #ff8070; border: 2px solid #cc3828; box-shadow: 0 0 14px #cc382830; }
+.blu .mpip { background: #0e38b0; color: #80b8ff; border: 2px solid #3070e0; box-shadow: 0 0 14px #3070e030; }
 .wht .mpip { background: #3c2878; color: #d8c8f8; border: 2px solid #8068c8; box-shadow: 0 0 14px #8068c830; }
+.grn .mpip { background: #1a5c22; color: #80e890; border: 2px solid #2a9838; box-shadow: 0 0 14px #2a983830; }
+.blk .mpip { background: #281828; color: #c0a0d0; border: 2px solid #705080; box-shadow: 0 0 14px #70508030; }
 
 .mlbl { font-family: 'Cinzel', serif; font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; }
-.blu .mlbl { color: var(--blue-lt); }
 .red .mlbl { color: var(--red-lt); }
+.blu .mlbl { color: var(--blue-lt); }
 .wht .mlbl { color: var(--white-lt); }
+.grn .mlbl { color: #80e890; }
+.blk .mlbl { color: #c0a0d0; }
 
 .mcount { font-family: 'Cinzel Decorative', serif; font-size: 2.7rem; line-height: 1; }
+.red .mcount { color: var(--red-lt); text-shadow: 0 0 18px #f0504030; }
 .blu .mcount { color: var(--blue-lt); text-shadow: 0 0 18px #60a8ff30; }
-.red .mcount { color: var(--red-lt);  text-shadow: 0 0 18px #f0504030; }
 .wht .mcount { color: var(--white-lt); text-shadow: 0 0 18px #f0eaf830; }
-.mcount.neg { color: var(--red-lt) !important; }
+.grn .mcount { color: #80e890; text-shadow: 0 0 18px #80e89030; }
+.blk .mcount { color: #c0a0d0; text-shadow: 0 0 18px #c0a0d030; }
 
 .mbtns { display: flex; gap: 5px; width: 100%; }
-.mbtn {
-  flex: 1; font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 700;
-  border-radius: 8px; border: none; padding: 10px 0; cursor: pointer;
-  transition: filter .12s, transform .1s;
-}
+.mbtn { flex: 1; font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 700; border-radius: 8px; border: none; padding: 10px 0; cursor: pointer; transition: filter .12s, transform .1s; }
 .mbtn:active { transform: scale(.9); }
 .mbtn:hover  { filter: brightness(1.2); }
-.blu .mbtn.p { background: #1040b8; color: #c0d8ff; }
-.blu .mbtn.m { background: #091a60; color: #70a0e8; }
 .red .mbtn.p { background: #9e1414; color: #ffd0c0; }
 .red .mbtn.m { background: #4e0e0e; color: #e06858; }
+.blu .mbtn.p { background: #1040b8; color: #c0d8ff; }
+.blu .mbtn.m { background: #091a60; color: #70a0e8; }
 .wht .mbtn.p { background: #4830a0; color: #e8dcff; }
 .wht .mbtn.m { background: #221438; color: #9880d0; }
+.grn .mbtn.p { background: #1a6020; color: #c0f0c8; }
+.grn .mbtn.m { background: #0c3010; color: #70c878; }
+.blk .mbtn.p { background: #302030; color: #e0c8f0; }
+.blk .mbtn.m { background: #180c18; color: #a888c0; }
 
-.mana-total-row {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--border);
-}
+.mana-total-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--border); }
 .mtlbl { font-family: 'Cinzel', serif; font-size: .68rem; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
 .mtval { font-family: 'Cinzel Decorative', serif; font-size: 1.85rem; color: var(--gold-lt); text-shadow: 0 0 18px #e8c06038; line-height: 1; }
 
-.reset-all {
-  width: 100%; background: transparent; border: 1px solid #281438; color: var(--muted);
-  font-family: 'Cinzel', serif; font-size: .62rem; letter-spacing: .14em;
-  border-radius: 10px; padding: 11px; cursor: pointer; text-transform: uppercase;
-  transition: border-color .2s, color .2s; margin-top: 2px;
+/* Menú de colores */
+.color-menu-btn {
+  background: transparent; border: 1px solid var(--border); color: var(--muted);
+  font-family: 'Cinzel', serif; font-size: .65rem; letter-spacing: .1em;
+  border-radius: 8px; padding: 7px 10px; cursor: pointer; text-transform: uppercase;
+  transition: border-color .15s, color .15s; width: 100%; margin-top: 8px;
 }
+.color-menu-btn:active { border-color: var(--gold); color: var(--gold-lt); }
+
+.color-picker { display: none; margin-top: 9px; border-top: 1px solid var(--border); padding-top: 9px; }
+.color-picker.open { display: block; }
+.color-picker-title { font-family: 'Cinzel', serif; font-size: .6rem; color: var(--muted); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+.color-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.color-opt {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Cinzel', serif; font-size: .68rem; letter-spacing: .08em;
+  background: #1a1028; border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 10px; cursor: pointer; transition: border-color .15s;
+  user-select: none;
+}
+.color-opt:active { border-color: var(--gold); }
+.color-opt.active { border-color: var(--gold); color: var(--gold-lt); }
+.color-opt.disabled { opacity: .35; pointer-events: none; }
+.cpip { width: 16px; height: 16px; border-radius: 50%; }
+.cpip.red { background: #c03020; }
+.cpip.blu { background: #1848c0; }
+.cpip.wht { background: #8068c8; }
+.cpip.grn { background: #1a7828; }
+.cpip.blk { background: #503060; }
+
+/* Reset all */
+.reset-all { width: 100%; background: transparent; border: 1px solid #281438; color: var(--muted); font-family: 'Cinzel', serif; font-size: .62rem; letter-spacing: .14em; border-radius: 10px; padding: 11px; cursor: pointer; text-transform: uppercase; transition: border-color .2s, color .2s; margin-top: 2px; }
 .reset-all:hover { border-color: var(--red); color: var(--red-lt); }
 
-/* Banner instalación */
-#install-banner {
-  display: none;
-  position: fixed; bottom: 16px; left: 12px; right: 12px; z-index: 999;
-  background: #1e1028; border: 1px solid var(--gold); border-radius: 12px;
-  padding: 12px 14px; align-items: center; gap: 10px;
-  box-shadow: 0 4px 24px #00000088;
-}
+/* Install banner */
+#install-banner { display: none; position: fixed; bottom: 16px; left: 12px; right: 12px; z-index: 99; background: #1e1028; border: 1px solid var(--gold); border-radius: 12px; padding: 12px 14px; align-items: center; gap: 10px; box-shadow: 0 4px 24px #00000088; }
 #install-banner.show { display: flex; }
 #install-banner p { font-family: 'Cinzel', serif; font-size: .75rem; color: var(--gold-lt); flex: 1; }
-#install-banner button {
-  font-family: 'Cinzel', serif; font-size: .7rem; font-weight: 700;
-  background: var(--gold); color: #0d0808; border: none; border-radius: 7px;
-  padding: 7px 12px; cursor: pointer; white-space: nowrap;
-}
-#install-banner .dismiss {
-  background: transparent; color: var(--muted); border: 1px solid var(--border);
-  padding: 7px 10px;
-}
+#install-banner .ibtn { font-family: 'Cinzel', serif; font-size: .7rem; font-weight: 700; background: var(--gold); color: #0d0808; border: none; border-radius: 7px; padding: 7px 12px; cursor: pointer; }
+#install-banner .idism { background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 7px; padding: 7px 10px; cursor: pointer; font-family: 'Cinzel', serif; font-size: .7rem; }
 </style>
 </head>
 <body>
@@ -261,126 +243,122 @@ h1 {
     <div class="coin-info">
       <div class="coin-result" id="coinResult">Toca la moneda</div>
       <div class="coin-stats">
-        <div class="cstat"><span class="cstat-v w" id="coinW">0</span><span class="cstat-l">Caras ✅</span></div>
-        <div class="cstat"><span class="cstat-v l" id="coinL">0</span><span class="cstat-l">Cruces ❌</span></div>
+        <div class="cstat"><span class="cstat-v w" id="coinW">0</span><span class="cstat-l">Caras</span></div>
+        <div class="cstat"><span class="cstat-v l" id="coinL">0</span><span class="cstat-l">Cruces</span></div>
         <div class="cstat"><span class="cstat-v" id="coinS">—</span><span class="cstat-l">Racha</span></div>
       </div>
     </div>
   </div>
-  <div class="coin-hint">Cara → Ral se transforma &nbsp;·&nbsp; Cruz → No</div>
+  <div class="coin-hint">Cara → Ral se transforma · Cruz → No</div>
 </div>
 
 <!-- 2. STORM COUNT -->
 <div class="section">
-  <div class="sec-title">🌩️ &nbsp;Storm Count</div>
+  <div class="sec-title-row">
+    <div class="sec-title">🌩️ &nbsp;Storm Count</div>
+    <button class="info-btn" onclick="document.getElementById('stormModal').classList.add('open')">i</button>
+  </div>
+
   <div class="storm-total-row">
     <div class="storm-big" id="stormTotal">0</div>
     <div class="storm-unit">total</div>
   </div>
+
   <div class="storm-split">
     <div class="splayer mine">
-      <div class="splayer-lbl">Yo</div>
+      <div class="splayer-lbl">Tormenta</div>
       <div class="splayer-num" id="stormMine">0</div>
-      <button class="btn btn-red" onclick="addStorm('mine')">+1</button>
+      <div class="splayer-btns">
+        <button class="btn btn-red" onclick="addStorm('mine',1)">+1</button>
+        <button class="btn btn-red" style="background:linear-gradient(135deg,#3a0606,#6a0e0e);font-size:.85rem;padding:9px 10px;" onclick="addStorm('mine',-1)">-1</button>
+      </div>
     </div>
     <div class="splayer rival">
-      <div class="splayer-lbl">Rival</div>
+      <div class="splayer-lbl">Ral</div>
       <div class="splayer-num" id="stormRival">0</div>
-      <button class="btn btn-blue" onclick="addStorm('rival')">+1</button>
+      <div class="splayer-btns">
+        <button class="btn btn-blue" onclick="addStorm('rival',1)">+1</button>
+        <button class="btn btn-blue" style="background:linear-gradient(135deg,#040a28,#081e60);font-size:.85rem;padding:9px 10px;" onclick="addStorm('rival',-1)">-1</button>
+      </div>
     </div>
   </div>
+
   <div class="ghost-row">
-    <button class="btn btn-ghost" onclick="undoStorm()">↩ Deshacer</button>
-    <button class="btn btn-ghost" onclick="resetStorm()">⭮ Reset</button>
+    <button class="btn btn-ghost" onclick="resetStorm()">Reset</button>
   </div>
 </div>
 
 <!-- 3. MANÁ -->
 <div class="section">
   <div class="sec-title">💎 &nbsp;Maná disponible</div>
-  <div class="mana-grid">
-    <div class="mcolor blu">
-      <div class="mpip">U</div>
-      <div class="mlbl">Azul</div>
-      <div class="mcount" id="mBlue">0</div>
-      <div class="mbtns">
-        <button class="mbtn p" onclick="chMana('blue',1)">＋</button>
-        <button class="mbtn m" onclick="chMana('blue',-1)">−</button>
-      </div>
-    </div>
-    <div class="mcolor red">
-      <div class="mpip">R</div>
-      <div class="mlbl">Rojo</div>
-      <div class="mcount" id="mRed">0</div>
-      <div class="mbtns">
-        <button class="mbtn p" onclick="chMana('red',1)">＋</button>
-        <button class="mbtn m" onclick="chMana('red',-1)">−</button>
-      </div>
-    </div>
-    <div class="mcolor wht">
-      <div class="mpip">W</div>
-      <div class="mlbl">Blanco</div>
-      <div class="mcount" id="mWhite">0</div>
-      <div class="mbtns">
-        <button class="mbtn p" onclick="chMana('white',1)">＋</button>
-        <button class="mbtn m" onclick="chMana('white',-1)">−</button>
-      </div>
-    </div>
-  </div>
+
+  <div class="mana-grid cols-1" id="manaGrid"></div>
+
   <div class="mana-total-row">
     <span class="mtlbl">Total</span>
     <span class="mtval" id="mTotal">0</span>
     <span class="mtlbl">maná</span>
   </div>
+
   <div class="ghost-row" style="margin-top:9px">
-    <button class="btn btn-ghost" onclick="undoMana()">↩ Deshacer</button>
-    <button class="btn btn-ghost" onclick="resetMana()">⭮ Reset</button>
+    <button class="btn btn-ghost" onclick="resetMana()">Reset</button>
+  </div>
+
+  <button class="color-menu-btn" onclick="toggleColorPicker()">+ Gestionar colores</button>
+  <div class="color-picker" id="colorPicker">
+    <div class="color-picker-title">Colores activos</div>
+    <div class="color-options" id="colorOptions"></div>
   </div>
 </div>
 
-<button class="reset-all" onclick="resetAll()">⭮ Nueva partida — Resetear todo</button>
+<button class="reset-all" onclick="resetAll()">Nueva partida — Resetear todo</button>
 
-<!-- Banner instalación -->
+<!-- Modal info storm -->
+<div class="modal-overlay" id="stormModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-title">Sobre el Storm Count</div>
+    <p><strong style="color:var(--red-lt)">Tormenta</strong> es el contador oficial de Storm: cuenta todos los hechizos lanzados en el turno, tanto los tuyos como los del rival. Este es el número que importa para Grapeshot.</p>
+    <p><strong style="color:var(--blue-lt)">Ral</strong> solo cuenta los hechizos de tipo Instantáneo y Conjuro, ya que su habilidad de lealtad +1 solo se activa con esos tipos. Úsalo para saber cuándo puedes llegar a 8 de lealtad para activar su -8.</p>
+    <button class="modal-close" onclick="document.getElementById('stormModal').classList.remove('open')">Cerrar</button>
+  </div>
+</div>
+
+<!-- Install banner -->
 <div id="install-banner">
-  <p>⚡ Instalar Ruby Storm como app</p>
-  <button class="dismiss" onclick="dismissInstall()">✕</button>
-  <button onclick="installApp()">Instalar</button>
+  <p>Instalar Ruby Storm como app</p>
+  <button class="idism" onclick="dismissInstall()">X</button>
+  <button class="ibtn" onclick="installApp()">Instalar</button>
 </div>
 
 <script>
 // ── Service Worker ──
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 }
 
-// ── Install prompt ──
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('install-banner').classList.add('show');
-});
-function installApp() {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(() => {
-    deferredPrompt = null;
-    document.getElementById('install-banner').classList.remove('show');
-  });
-}
-function dismissInstall() {
-  document.getElementById('install-banner').classList.remove('show');
-}
-window.addEventListener('appinstalled', () => {
-  document.getElementById('install-banner').classList.remove('show');
-});
+// ── Install ──
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('install-banner').classList.add('show');});
+function installApp(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('install-banner').classList.remove('show');});}
+function dismissInstall(){document.getElementById('install-banner').classList.remove('show');}
+window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
 
 // ── Estado ──
 let coinW=0,coinL=0,coinStreak=0,coinStreakSign=0;
-let smine=0,srival=0,sHist=[];
-let mn={blue:0,red:0,white:0},mnHist=[];
+
+// Storm: "mine" = Tormenta (total, el que cuenta para Grapeshot), "rival" = Ral (solo inst/conj)
+let smine=0,srival=0;
+
+// Maná: colores disponibles y activos
+const COLOR_DEFS = {
+  red:  { label:'Rojo',   pip:'R', cls:'red' },
+  blu:  { label:'Azul',   pip:'U', cls:'blu' },
+  wht:  { label:'Blanco', pip:'W', cls:'wht' },
+  grn:  { label:'Verde',  pip:'G', cls:'grn' },
+  blk:  { label:'Negro',  pip:'B', cls:'blk' },
+};
+let activeColors = ['red']; // solo rojo por defecto
+let mn = { red:0, blu:0, wht:0, grn:0, blk:0 };
 
 // ── Moneda ──
 function flipCoin(){
@@ -392,60 +370,121 @@ function flipCoin(){
     const win=Math.random()<.5;
     const r=document.getElementById('coinResult');
     r.className='coin-result '+(win?'win':'lose');
-    r.textContent=win?'✅ ¡Cara! — Se transforma':'❌ Cruz — No se transforma';
+    r.textContent=win?'Cara — Ral se transforma':'Cruz — No se transforma';
     c.textContent=win?'⚡':'💀';
     if(win){coinW++;coinStreak=coinStreakSign===1?coinStreak+1:1;coinStreakSign=1;}
     else   {coinL++;coinStreak=coinStreakSign===-1?coinStreak+1:1;coinStreakSign=-1;}
     document.getElementById('coinW').textContent=coinW;
     document.getElementById('coinL').textContent=coinL;
-    document.getElementById('coinS').textContent=coinStreak+(coinStreakSign===1?' ✅':' ❌');
+    document.getElementById('coinS').textContent=coinStreak+(coinStreakSign===1?' C':' X');
   },560);
 }
 
 // ── Storm ──
-function addStorm(who){
-  sHist.push({mine:smine,rival:srival});
-  if(who==='mine')smine++;else srival++;
+// El total visible = smine (Tormenta), el display del rival es solo informativo para Ral
+function addStorm(who, delta){
+  if(who==='mine') smine = Math.max(0, smine + delta);
+  else             srival = Math.max(0, srival + delta);
   renderStorm();
 }
-function undoStorm(){if(!sHist.length)return;const p=sHist.pop();smine=p.mine;srival=p.rival;renderStorm();}
-function resetStorm(){sHist.push({mine:smine,rival:srival});smine=srival=0;renderStorm();}
+function resetStorm(){smine=0;srival=0;renderStorm();}
 function renderStorm(){
-  const t=smine+srival;
+  // El total mostrado en grande = Tormenta (smine), no la suma
   const el=document.getElementById('stormTotal');
-  el.textContent=t;el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');
+  el.textContent=smine;
+  el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');
   document.getElementById('stormMine').textContent=smine;
   document.getElementById('stormRival').textContent=srival;
 }
 
 // ── Maná ──
-function chMana(c,d){mnHist.push({...mn});mn[c]+=d;renderMana();}
-function undoMana(){if(!mnHist.length)return;mn=mnHist.pop();renderMana();}
-function resetMana(){mnHist.push({...mn});mn={blue:0,red:0,white:0};renderMana();}
+function chMana(color, delta){
+  mn[color] = Math.max(0, mn[color] + delta);
+  renderMana();
+}
+function resetMana(){activeColors.forEach(c=>mn[c]=0);renderMana();}
 function renderMana(){
-  const map={blue:'mBlue',red:'mRed',white:'mWhite'};
-  Object.entries(map).forEach(([c,id])=>{
-    const el=document.getElementById(id);
-    el.textContent=mn[c];
-    el.classList.toggle('neg',mn[c]<0);
+  activeColors.forEach(color=>{
+    const el=document.getElementById('m_'+color);
+    if(el) el.textContent=mn[color];
   });
-  document.getElementById('mTotal').textContent=mn.blue+mn.red+mn.white;
+  const total=activeColors.reduce((s,c)=>s+mn[c],0);
+  document.getElementById('mTotal').textContent=total;
+}
+
+function buildManaGrid(){
+  const grid=document.getElementById('manaGrid');
+  grid.innerHTML='';
+  const n=activeColors.length;
+  grid.className='mana-grid '+(n===1?'cols-1':n===2?'cols-2':'cols-3');
+  activeColors.forEach(color=>{
+    const def=COLOR_DEFS[color];
+    const div=document.createElement('div');
+    div.className='mcolor '+def.cls;
+    div.innerHTML=`
+      <div class="mpip">${def.pip}</div>
+      <div class="mlbl">${def.label}</div>
+      <div class="mcount" id="m_${color}">${mn[color]}</div>
+      <div class="mbtns">
+        <button class="mbtn p" onclick="chMana('${color}',1)">+</button>
+        <button class="mbtn m" onclick="chMana('${color}',-1)">-</button>
+      </div>`;
+    grid.appendChild(div);
+  });
+  renderMana();
+  buildColorOptions();
+}
+
+// ── Menú de colores ──
+function toggleColorPicker(){
+  document.getElementById('colorPicker').classList.toggle('open');
+}
+function buildColorOptions(){
+  const cont=document.getElementById('colorOptions');
+  cont.innerHTML='';
+  Object.entries(COLOR_DEFS).forEach(([key,def])=>{
+    const isActive=activeColors.includes(key);
+    const isRed=key==='red';
+    const div=document.createElement('div');
+    div.className='color-opt'+(isActive?' active':'')+(isRed?' disabled':'');
+    div.innerHTML=`<div class="cpip ${key}"></div>${def.label}`;
+    if(!isRed){
+      div.onclick=()=>toggleColor(key);
+    }
+    cont.appendChild(div);
+  });
+}
+function toggleColor(key){
+  if(activeColors.includes(key)){
+    if(activeColors.length===1)return; // siempre al menos uno
+    activeColors=activeColors.filter(c=>c!==key);
+  } else {
+    activeColors.push(key);
+  }
+  buildManaGrid();
 }
 
 // ── Reset all ──
 function resetAll(){
-  if(!confirm('¿Nueva partida? Se reinicia todo.'))return;
+  if(!confirm('Nueva partida? Se reinicia todo.'))return;
   coinW=coinL=coinStreak=coinStreakSign=0;
-  smine=srival=0;sHist=[];
-  mn={blue:0,red:0,white:0};mnHist=[];
+  smine=srival=0;
+  Object.keys(mn).forEach(k=>mn[k]=0);
+  activeColors=['red'];
   const c=document.getElementById('coin');
   c.textContent='🔥';
   const r=document.getElementById('coinResult');
   r.className='coin-result';r.textContent='Toca la moneda';
-  ['coinW','coinL'].forEach(id=>document.getElementById(id).textContent='0');
+  document.getElementById('coinW').textContent='0';
+  document.getElementById('coinL').textContent='0';
   document.getElementById('coinS').textContent='—';
-  renderStorm();renderMana();
+  renderStorm();
+  buildManaGrid();
+  document.getElementById('colorPicker').classList.remove('open');
 }
+
+// ── Init ──
+buildManaGrid();
 </script>
 </body>
 </html>
