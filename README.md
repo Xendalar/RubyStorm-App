@@ -1,7 +1,7 @@
 # ⚡ Ruby Storm — MTG Game Assistant
 
 ¡Hola!
-Soy Xendalar, Alfredo para los que me conocen.
+Soy Xendalar, Alfre para los que me conocen.
 
 Cuando empecé a jugar Ruby Storm vi un problema: llevar la cuenta de las cosas con dados es un enorme peñazo porque en cualquier momento les das un golpe y ahora vete tú a saber por cuánto iba la cuenta. Normalmente no es tan complicado, pero puede pasar que no haya acuerdo o que simplemente los jugadores no recuerden.
 Llevar las cuentas a papel es otra opción y más segura, pero a veces no quieres cargar con un libreta y boli o te da pereza y ya está.
