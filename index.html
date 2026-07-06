@@ -230,6 +230,25 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
 #install-banner p { font-family: 'Cinzel', serif; font-size: .75rem; color: var(--gold-lt); flex: 1; }
 #install-banner .ibtn { font-family: 'Cinzel', serif; font-size: .7rem; font-weight: 700; background: var(--gold); color: #0d0808; border: none; border-radius: 7px; padding: 7px 12px; cursor: pointer; }
 #install-banner .idism { background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 7px; padding: 7px 10px; cursor: pointer; font-family: 'Cinzel', serif; font-size: .7rem; }
+
+/* Settings modal */
+.header-icons { position: absolute; top: 0; left: 0; display: flex; gap: 6px; }
+.hdr-btn { width: 28px; height: 28px; border-radius: 50%; background: transparent; border: 1px solid var(--border); color: var(--muted); font-size: .85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .15s, color .15s; }
+.hdr-btn:active { border-color: var(--gold); color: var(--gold-lt); }
+
+/* Toggle switch */
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.toggle-row:last-of-type { border-bottom: none; }
+.toggle-label { font-family: 'Cinzel', serif; font-size: .75rem; color: var(--text); letter-spacing: .06em; }
+.toggle-desc { font-size: .72rem; color: var(--muted); margin-top: 2px; font-family: 'Crimson Text', serif; font-style: italic; }
+.toggle-wrap { display: flex; flex-direction: column; }
+.toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; inset: 0; background: #2a1838; border: 1px solid var(--border); border-radius: 24px; cursor: pointer; transition: background .2s; }
+.toggle-slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 2px; top: 2px; background: var(--muted); border-radius: 50%; transition: transform .2s, background .2s; }
+.toggle input:checked + .toggle-slider { background: #2a1830; border-color: var(--gold); }
+.toggle input:checked + .toggle-slider::before { transform: translateX(20px); background: var(--gold); }
+
 </style>
 </head>
 <body>
@@ -243,6 +262,11 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
     <a href="https://ko-fi.com/xendalar" target="_blank" style="color:var(--gold);text-decoration:underline;">ko-fi.com</a>
   </p>
   <button class="install-btn-header" id="installHeaderBtn" onclick="openInstallModal()" data-i18n="how_to_install">Como instalar</button>
+  <!-- Iconos izquierda: info + settings -->
+  <div class="header-icons">
+    <button class="hdr-btn" onclick="document.getElementById('infoModal').classList.add('open')" title="Info">?</button>
+    <button class="hdr-btn" onclick="document.getElementById('settingsModal').classList.add('open')" title="Ajustes">&#9881;</button>
+  </div>
   <div class="lang-toggle" style="top:4px">
     <button class="lang-btn active" id="btnEs" onclick="setLang('es')">ES</button>
     <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
@@ -250,7 +274,7 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
 </header>
 
 <!-- 1. MONEDA -->
-<div class="section">
+<div class="section" id="sectionCoin">
   <div class="sec-title">🪙 &nbsp;<span data-i18n="coin_title">Ral — Lanzamiento de moneda</span></div>
   <div class="coin-row">
     <div class="coin" id="coin" onclick="flipCoin()">🔥</div>
@@ -285,7 +309,7 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
         <button class="btn btn-red" style="background:linear-gradient(135deg,#3a0606,#6a0e0e);font-size:.85rem;padding:9px 10px;" onclick="addStorm('mine',-1)">-1</button>
       </div>
     </div>
-    <div class="splayer rival">
+    <div class="splayer rival" id="stormRalBlock">
       <div class="splayer-lbl">Ral</div>
       <div class="splayer-num" id="stormRival">0</div>
       <div class="splayer-btns">
@@ -320,6 +344,46 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
 
 <button class="reset-all" onclick="resetAll()" data-i18n="new_game">Nueva partida — Resetear todo</button>
 
+
+
+<!-- Modal info app -->
+<div class="modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-title" data-i18n="info_title">Sobre esta app</div>
+    <p data-i18n="info_p1">Asistente de partida para mazos de Tormenta en el formato Modern de Magic: The Gathering. Pensado especialmente para Ruby Storm.</p>
+    <p data-i18n="info_p2">Incluye lanzamiento de moneda para Ral, Monsoon Mage, contador de Storm separado por tipo de hechizo, y seguimiento de maná por color.</p>
+    <p data-i18n="info_p3">Si juegas otro mazo de Tormenta sin Ral, puedes ocultar la moneda y el contador de Ral desde el menu de ajustes (icono de engranaje).</p>
+    <button class="modal-close" onclick="document.getElementById('infoModal').classList.remove('open')" data-i18n="btn_close">Cerrar</button>
+  </div>
+</div>
+
+<!-- Modal settings -->
+<div class="modal-overlay" id="settingsModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-title" data-i18n="settings_title">Ajustes</div>
+    <div class="toggle-row">
+      <div class="toggle-wrap">
+        <span class="toggle-label" data-i18n="setting_coin_label">Moneda de Ral</span>
+        <span class="toggle-desc" data-i18n="setting_coin_desc">Mostrar seccion de lanzamiento de moneda</span>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggleCoin" checked onchange="applySetting('coin',this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-wrap">
+        <span class="toggle-label" data-i18n="setting_ral_label">Contador de Ral</span>
+        <span class="toggle-desc" data-i18n="setting_ral_desc">Mostrar contador de hechizos para la lealtad de Ral</span>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="toggleRal" checked onchange="applySetting('ral',this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <button class="modal-close" style="margin-top:14px" onclick="document.getElementById('settingsModal').classList.remove('open')" data-i18n="btn_close">Cerrar</button>
+  </div>
+</div>
 
 <!-- Modal instalación -->
 <div class="modal-overlay" id="installModal" onclick="if(event.target===this)this.classList.remove('open')">
@@ -370,10 +434,28 @@ if('serviceWorker' in navigator){
 
 // ── Install ──
 let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('install-banner').classList.add('show');});
-function installApp(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('install-banner').classList.remove('show');});}
-function dismissInstall(){document.getElementById('install-banner').classList.remove('show');}
-window.addEventListener('appinstalled',()=>document.getElementById('install-banner').classList.remove('show'));
+
+function hideInstallUI(){
+  document.getElementById('install-banner').classList.remove('show');
+  const btn=document.getElementById('installHeaderBtn');
+  if(btn) btn.style.display='none';
+}
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  document.getElementById('install-banner').classList.add('show');
+});
+
+function triggerInstall(){
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(()=>{deferredPrompt=null;hideInstallUI();});
+}
+
+function installApp(){ triggerInstall(); }
+function dismissInstall(){ document.getElementById('install-banner').classList.remove('show'); }
+window.addEventListener('appinstalled', hideInstallUI);
 
 // ── i18n ──
 const LANGS = {
@@ -413,6 +495,15 @@ const LANGS = {
     btn_close:     'Cerrar',
     btn_install:   'Instalar',
     install_text:  'Instalar Ruby Storm como app',
+    info_title: 'Sobre esta app',
+    info_p1: 'Asistente de partida para mazos de Tormenta en el formato Modern de Magic: The Gathering. Pensado especialmente para Ruby Storm.',
+    info_p2: 'Incluye lanzamiento de moneda para Ral, Monsoon Mage, contador de Storm separado por tipo de hechizo, y seguimiento de mana por color.',
+    info_p3: 'Si juegas otro mazo de Tormenta sin Ral, puedes ocultar la moneda y el contador de Ral desde el menu de ajustes (icono de engranaje).',
+    settings_title: 'Ajustes',
+    setting_coin_label: 'Moneda de Ral',
+    setting_coin_desc: 'Mostrar seccion de lanzamiento de moneda',
+    setting_ral_label: 'Contador de Ral',
+    setting_ral_desc: 'Mostrar contador de hechizos para la lealtad de Ral',
     colors: { red:'Rojo', blu:'Azul', wht:'Blanco', grn:'Verde', blk:'Negro' },
   },
   en: {
@@ -451,6 +542,15 @@ const LANGS = {
     btn_close:     'Close',
     btn_install:   'Install',
     install_text:  'Install Ruby Storm as an app',
+    info_title: 'About this app',
+    info_p1: 'A game assistant for Storm decks in Magic: The Gathering Modern format. Designed especially for Ruby Storm.',
+    info_p2: 'Includes a coin flip for Ral, Monsoon Mage, a Storm counter split by spell type, and mana tracking by color.',
+    info_p3: 'If you play a different Storm deck without Ral, you can hide the coin flip and Ral counter from the settings menu (gear icon).',
+    settings_title: 'Settings',
+    setting_coin_label: 'Ral Coin Flip',
+    setting_coin_desc: 'Show the coin flip section',
+    setting_ral_label: 'Ral Counter',
+    setting_ral_desc: 'Show the spell counter for Ral loyalty',
     colors: { red:'Red', blu:'Blue', wht:'White', grn:'Green', blk:'Black' },
   }
 };
@@ -468,7 +568,7 @@ function setLang(lang) {
   // Static data-i18n elements (non-modal-p)
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if(key === 'modal_p1' || key === 'modal_p2' || key.startsWith('android_') || key.startsWith('ios_') || key === 'install_modal_title') {
+    if(key === 'modal_p1' || key === 'modal_p2' || key.startsWith('android_') || key.startsWith('ios_') || key === 'install_modal_title' || key.startsWith('info_p')) {
       el.innerHTML = t[key];
     } else if(t[key] !== undefined) {
       el.textContent = t[key];
@@ -614,7 +714,13 @@ function resetAll(){
 
 // ── Install modal ──
 function openInstallModal(){
-  document.getElementById('installModal').classList.add('open');
+  if(deferredPrompt){
+    triggerInstall();
+  } else {
+    const isIos=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    switchTab(isIos?'ios':'android');
+    document.getElementById('installModal').classList.add('open');
+  }
 }
 function switchTab(tab){
   document.getElementById('panelAndroid').classList.toggle('active', tab==='android');
@@ -623,12 +729,53 @@ function switchTab(tab){
   document.getElementById('tabIos').classList.toggle('active', tab==='ios');
 }
 
-// ── Init ──
-// Si la app ya está en modo standalone (instalada), ocultar el botón
-if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone){
-  const btn = document.getElementById('installHeaderBtn');
-  if(btn) btn.style.display = 'none';
+// ── Settings ──
+const SETTINGS_KEY = 'rubyStormSettings';
+
+function loadSettings(){
+  try {
+    const s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+    const coin = s.coin !== false;
+    const ral  = s.ral  !== false;
+    document.getElementById('toggleCoin').checked = coin;
+    document.getElementById('toggleRal').checked  = ral;
+    applySettingUI('coin', coin);
+    applySettingUI('ral',  ral);
+  } catch(e){}
 }
+
+function applySetting(key, val){
+  try {
+    const s = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+    s[key] = val;
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+  } catch(e){}
+  applySettingUI(key, val);
+}
+
+function applySettingUI(key, val){
+  if(key === 'coin'){
+    const el = document.getElementById('sectionCoin');
+    if(el) el.style.display = val ? '' : 'none';
+  }
+  if(key === 'ral'){
+    const el = document.getElementById('stormRalBlock');
+    if(el) el.style.display = val ? '' : 'none';
+    // Ajustar grid: si Ral oculto, solo una columna centrada
+    const split = document.querySelector('.storm-split');
+    if(split) split.style.gridTemplateColumns = val ? '1fr 1fr' : '1fr';
+  }
+}
+
+// ── Init ──
+function checkStandalone(){
+  const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+  if(isStandalone) hideInstallUI();
+}
+// Comprobar al cargar y tras un pequeño delay (Samsung a veces tarda en reportarlo)
+checkStandalone();
+setTimeout(checkStandalone, 500);
+loadSettings();
 buildManaGrid();
 </script>
 </body>

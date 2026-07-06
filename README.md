@@ -12,7 +12,7 @@ Pues ea, para eso hice esta app. Llevo poco programando pero si tienes la capaci
 
 ## Description
 
-A mobile web app (PWA) designed as a game assistant for the **Ruby Storm** deck in Magic: The Gathering's **Modern** format.
+A mobile web app (PWA) designed as a game assistant for Storm decks in Magic: The Gathering's **Modern** format. Designed especially for **Ruby Storm**, but configurable for any Storm variant.
 
 Available in **Spanish and English**.
 
@@ -23,7 +23,21 @@ Available in **Spanish and English**.
 - **Ral coin flip** — tap to flip and track heads/tails streaks
 - **Storm Count** — separate counters for Storm (all spells, for Grapeshot) and Ral (instants/sorceries only, for his loyalty)
 - **Mana tracker** — red mana by default, add any of the five colors as needed
+- **Configurable** — hide the coin flip and Ral counter if you're playing a different Storm deck
 - Installable as a home screen app on Android and iOS (no app store needed)
+
+---
+
+## Configuration
+
+Tap the **gear icon** (top left) to open Settings. From there you can toggle:
+
+- **Ral Coin Flip** — show or hide the coin flip section. Turn off if your deck doesn't use Ral, Monsoon Mage.
+- **Ral Counter** — show or hide the Ral spell counter in Storm Count. Turn off if you only need the total Storm count.
+
+Your preferences are saved automatically and persist between sessions.
+
+Tap the **? icon** (top left) for a brief description of the app and its features.
 
 ---
 
