@@ -429,7 +429,22 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
 <script>
 // ── Service Worker ──
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('./sw.js');
+      // Forzar comprobacion de actualizacion cada vez que se abre la app
+      reg.update();
+      reg.addEventListener('updatefound', () => {
+        const newSW = reg.installing;
+        newSW.addEventListener('statechange', () => {
+          // Cuando el nuevo SW esta listo, recargar para aplicar cambios
+          if(newSW.state === 'activated') {
+            window.location.reload();
+          }
+        });
+      });
+    } catch(e){}
+  });
 }
 
 // ── Install ──

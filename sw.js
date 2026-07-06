@@ -1,4 +1,6 @@
-const CACHE = 'ruby-storm-v1';
+// Cambia este numero con cada deploy para forzar actualizacion
+const VERSION = 'ruby-storm-v3';
+
 const ASSETS = [
   './',
   './index.html',
@@ -7,24 +9,34 @@ const ASSETS = [
   './icons/icon-512.png'
 ];
 
+// Instalar: cachear assets
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS))
+    caches.open(VERSION).then(c => c.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
+// Activar: borrar cachés antiguas
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
+// Fetch: network first, caché como fallback offline
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
+    fetch(e.request)
+      .then(response => {
+        // Guardar copia fresca en caché
+        const clone = response.clone();
+        caches.open(VERSION).then(c => c.put(e.request, clone));
+        return response;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
