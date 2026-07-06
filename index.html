@@ -223,6 +223,13 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
 .install-step p { font-size: .88rem; color: var(--text); line-height: 1.5; margin: 0; }
 .install-step p strong { color: var(--gold-lt); }
 
+
+/* Install banner */
+#install-banner { display: none; position: fixed; bottom: 16px; left: 12px; right: 12px; z-index: 99; background: #1e1028; border: 1px solid var(--gold); border-radius: 12px; padding: 12px 14px; align-items: center; gap: 10px; box-shadow: 0 4px 24px #00000088; }
+#install-banner.show { display: flex; }
+#install-banner p { font-family: 'Cinzel', serif; font-size: .75rem; color: var(--gold-lt); flex: 1; }
+#install-banner .ibtn { font-family: 'Cinzel', serif; font-size: .7rem; font-weight: 700; background: var(--gold); color: #0d0808; border: none; border-radius: 7px; padding: 7px 12px; cursor: pointer; }
+#install-banner .idism { background: transparent; color: var(--muted); border: 1px solid var(--border); border-radius: 7px; padding: 7px 10px; cursor: pointer; font-family: 'Cinzel', serif; font-size: .7rem; }
 </style>
 </head>
 <body>
@@ -235,7 +242,7 @@ h1 { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--go
     <span data-i18n="donate_text">¿Te gusta la app? Puedes echarme una mano donando en</span>
     <a href="https://ko-fi.com/xendalar" target="_blank" style="color:var(--gold);text-decoration:underline;">ko-fi.com</a>
   </p>
-  <button class="install-btn-header" onclick="openInstallModal()" data-i18n="how_to_install">Como instalar</button>
+  <button class="install-btn-header" id="installHeaderBtn" onclick="openInstallModal()" data-i18n="how_to_install">Como instalar</button>
   <div class="lang-toggle" style="top:4px">
     <button class="lang-btn active" id="btnEs" onclick="setLang('es')">ES</button>
     <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
@@ -617,6 +624,11 @@ function switchTab(tab){
 }
 
 // ── Init ──
+// Si la app ya está en modo standalone (instalada), ocultar el botón
+if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone){
+  const btn = document.getElementById('installHeaderBtn');
+  if(btn) btn.style.display = 'none';
+}
 buildManaGrid();
 </script>
 </body>
